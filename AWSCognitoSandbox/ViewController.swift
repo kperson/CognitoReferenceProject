@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ViewController: UIViewController, AuthManagerDelegate {
+class ViewController: UIViewController {
 
     private var authManager: AuthManager!
     private var hasAppeared = false
@@ -17,23 +17,24 @@ class ViewController: UIViewController, AuthManagerDelegate {
         if !hasAppeared {
             authManager = AppDelegate.authManager
             hasAppeared = true
-            authManager.registerAuthMonitor(delegate: self)
+            let _ = authManager.fetchIsSignedIn().onSuccess { isSignedIn in
+                if isSignedIn {
+                    self.loadFeatureArea()
+                }
+                else {
+                    self.startAuthFlow()
+                }
+            }
         }
     }
     
-    func willSignOut() {
+    private func startAuthFlow() {
+        let _ = authManager.startAuth().onSuccess { _ in
+            print("done")
+        }
     }
     
-    func didSignOut() {
-    }
-    
-    func authConfirmed() {
-        print("authorized")
-    }
-    
-    func unAuthConfirmed() {
-        print("unauth")
+    private func loadFeatureArea() {
     }
 
 }
-

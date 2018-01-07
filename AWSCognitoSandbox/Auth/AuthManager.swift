@@ -11,28 +11,22 @@ import FSwift
 import AWSCognito
 import AWSCognitoIdentityProvider
 
-protocol AuthManagerDelegate: class {
-
-    func willSignOut()
-    func didSignOut()
-    func authConfirmed()
-    func unAuthConfirmed()
-    
-}
 class AuthManager: NSObject, AWSCognitoIdentityInteractiveAuthenticationDelegate {
 
+    private static let initializationKey = "auth_manager_has_been_initialized"
     static let userPoolKey = "UserPool"
-    private var appDelegate: AppDelegate
-    private var window: UIWindow?
+    let appDelegate: AppDelegate
+    let window: UIWindow?
+    let mfaEnabled: Bool
     private (set) var credentialsProvider: AWSCognitoCredentialsProvider
     private (set) var userPool: AWSCognitoIdentityUserPool
     private var navigtationController: UINavigationController?
+    private var authPromise: Promise<Void>? = nil
     
-    weak var delegate: AuthManagerDelegate?
-    
-    init(window: UIWindow?, appDelegate: AppDelegate) {
+    init(window: UIWindow?, appDelegate: AppDelegate, mfaEnabled: Bool = true) {
         self.window = window
         self.appDelegate = appDelegate
+        self.mfaEnabled = mfaEnabled
         let userPoolConfiguration = AWSCognitoIdentityUserPoolConfiguration (
             clientId: Constants.appId,
             clientSecret: Constants.appSecret,
@@ -49,6 +43,11 @@ class AuthManager: NSObject, AWSCognitoIdentityInteractiveAuthenticationDelegate
         )
         userPool = AWSCognitoIdentityUserPool(forKey: AuthManager.userPoolKey)
         credentialsProvider = AuthManager.createCredentialsProvider(up: userPool)
+        if AuthManager.isFirtInitialization {
+            credentialsProvider.clearKeychain()
+            userPool.clearAll()
+        }
+        AuthManager.markInitialized()
         credentialsProvider.clearCredentials()
         let configuration = AWSServiceConfiguration (
             region: Constants.regionType,
@@ -57,22 +56,36 @@ class AuthManager: NSObject, AWSCognitoIdentityInteractiveAuthenticationDelegate
         AWSServiceManager.default().defaultServiceConfiguration = configuration
     }
     
-    func registerAuthMonitor(delegate: AuthManagerDelegate) {
-        self.delegate = delegate
+    
+    //MARK: - public interface
+    
+    /// Fetches the sign in status
+    ///
+    /// - Returns: a future (true if signed) triggered upon completion
+    func fetchIsSignedIn() -> Future<Bool> {
+        let p = Promise<Bool>()
         credentialsProvider.getIdentityId().continueWith { task in
-            Dispatch.foreground {
-                if let cu = self.userPool.currentUser(), cu.isSignedIn {
-                    self.delegate?.authConfirmed()
+            if let _ = task.result {
+                if let cu = self.userPool.currentUser(), cu.isSignedIn, let _ = task.result {
+                    p.completeWith(true)
                 }
-                else {
-                    self.delegate?.unAuthConfirmed()
+                else if let _ = task.result {
+                    p.completeWith(false)
                 }
             }
+            else if let e = task.error {
+                p.completeWith(e as NSError)
+            }
+            return Void()
         }
+        return p.future
     }
     
-    func signOut() {
-        delegate?.willSignOut()
+    /// Signs a user out
+    ///
+    /// - Returns: a future triggered upon fetch of new identity id
+    func signOut() -> Future<Void> {
+        let p = Promise<Void>()
         credentialsProvider.clearKeychain()
         userPool.clearAll()
         credentialsProvider = AuthManager.createCredentialsProvider(up: userPool)
@@ -84,22 +97,51 @@ class AuthManager: NSObject, AWSCognitoIdentityInteractiveAuthenticationDelegate
         
         //force a refresh
         credentialsProvider.getIdentityId().continueWith { task in
-            Dispatch.foreground {
-                self.delegate?.didSignOut()
-                self.delegate?.unAuthConfirmed()
+            if let _ = task.result {
+                p.completeWith(Void())
             }
+            else if let e = task.error {
+                p.completeWith(e as NSError)
+            }
+            return Void()
+        }
+        return p.future
+    }
+    
+    /// Starts an authorization flow, if a user is authorization the future will be completed immedidately
+    ///
+    /// - Returns: returns a future triggered upon completion
+    func startAuth() -> Future<Void> {
+        userPool.delegate = self
+        if userPool.currentUser() == nil {
+            let ap = Promise<Void>()
+            launchSignUpOrLogin()
+            authPromise = ap
+            return ap.future
+        }
+        else if let u = userPool.currentUser(), !u.isSignedIn {
+            let ap = Promise<Void>()
+            launchSignUpOrLogin()
+            authPromise = ap
+            return ap.future
+        }
+        else {
+            return future { Try.success(Void()) }
         }
     }
     
-    func startAuth() {
-        userPool.delegate = self
-        if userPool.currentUser() == nil {
-            launchSignUpOrLogin()
-        }
-        else if let u = userPool.currentUser(), !u.isSignedIn {
-            launchSignUpOrLogin()
+    /// Launches the sign up or login screen
+    func launchSignUpOrLogin() {
+        if let rootVC = window?.rootViewController {
+            let vc = LoginSignupViewController.create(authManager: self)
+            let nv = UINavigationController(rootViewController: vc)
+            navigtationController = nv
+            rootVC.present(nv, animated: true, completion: nil)
         }
     }
+    
+    
+    //MARK - static helpers
     
     private class func createCredentialsProvider(up: AWSCognitoIdentityUserPool) -> AWSCognitoCredentialsProvider {
         if let cu = up.currentUser(), cu.isSignedIn {
@@ -116,7 +158,17 @@ class AuthManager: NSObject, AWSCognitoIdentityInteractiveAuthenticationDelegate
             )
         }
     }
+    
+    private class func markInitialized() {
+        UserDefaults.standard.set(true, forKey: AuthManager.initializationKey)
+    }
+    
+    private class var isFirtInitialization: Bool {
+        return !UserDefaults.standard.bool(forKey: AuthManager.initializationKey)
+    }
 
+    
+    //MARK - AWSCognitoIdentityInteractiveAuthenticationDelegate
     
     func startPasswordAuthentication() -> AWSCognitoIdentityPasswordAuthentication {
         let vc = LoginViewController.create(authManager: self)
@@ -149,7 +201,20 @@ class AuthManager: NSObject, AWSCognitoIdentityInteractiveAuthenticationDelegate
         return vc
     }
     
+    
+    //MARK - finalization
+    
     func mfaCompleted() {
+        finalizeAuth()
+    }
+    
+    func loginComplete() {
+        if !mfaEnabled {
+            finalizeAuth()
+        }
+    }
+    
+    private func finalizeAuth() {
         navigtationController = nil
         credentialsProvider.clearKeychain()
         credentialsProvider = AuthManager.createCredentialsProvider(up: userPool)
@@ -161,23 +226,16 @@ class AuthManager: NSObject, AWSCognitoIdentityInteractiveAuthenticationDelegate
         
         //force a refresh
         credentialsProvider.getIdentityId().continueWith { task in
-            Dispatch.foreground {
-                self.delegate?.authConfirmed()
+            if let _ = task.result {
+                self.authPromise?.completeWith(Void())
+                self.authPromise = nil
             }
+            else if let e = task.error {
+                self.authPromise?.completeWith(e as NSError)
+                self.authPromise = nil
+            }
+            return Void()
         }
     }
     
-    func loginComplete() {
-        //we don't need this in our implementation
-    }
-    
-    func launchSignUpOrLogin() {
-        if let rootVC = window?.rootViewController {
-            let vc = LoginSignupViewController.create(authManager: self)
-            let nv = UINavigationController(rootViewController: vc)
-            navigtationController = nv
-            rootVC.present(nv, animated: true, completion: nil)
-        }
-    }
-
 }

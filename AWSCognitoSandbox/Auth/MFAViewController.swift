@@ -40,10 +40,10 @@ class MFAViewController: UIViewController, AWSCognitoIdentityMultiFactorAuthenti
     }
     
     private func handleSuccessfulMFA() {
-        authManager.mfaCompleted()
-        dismiss(animated: true, completion: nil)
+        dismiss(animated: true) {
+            self.authManager.mfaCompleted()
+        }
     }
-    
     
     func getCode(_ authenticationInput: AWSCognitoIdentityMultifactorAuthenticationInput, mfaCodeCompletionSource: AWSTaskCompletionSource<NSString>) {
         challenge = mfaCodeCompletionSource
