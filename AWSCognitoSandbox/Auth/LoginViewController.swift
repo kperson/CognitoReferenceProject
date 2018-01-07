@@ -60,7 +60,7 @@ class LoginViewController: UIViewController, AWSCognitoIdentityPasswordAuthentic
     
     private func handleSuccessfulLogin() {
         //TODO - remove spinner
-        authManager.loginComplete()
+        authManager.passwordStepComplete()
     }
     
     func getDetails(_ authenticationInput: AWSCognitoIdentityPasswordAuthenticationInput, passwordAuthenticationCompletionSource: AWSTaskCompletionSource<AWSCognitoIdentityPasswordAuthenticationDetails>) {
@@ -83,6 +83,10 @@ class LoginViewController: UIViewController, AWSCognitoIdentityPasswordAuthentic
         vc.authManager = authManager
         
         return vc
+    }
+    
+    deinit {
+        print("PLEASE")
     }
     
 }

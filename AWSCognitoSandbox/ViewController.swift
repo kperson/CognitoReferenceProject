@@ -15,8 +15,8 @@ class ViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         if !hasAppeared {
-            authManager = AppDelegate.authManager
             hasAppeared = true
+            authManager = AppDelegate.authManager
             let _ = authManager.fetchIsSignedIn().onSuccess { isSignedIn in
                 if isSignedIn {
                     self.loadFeatureArea()
@@ -30,7 +30,7 @@ class ViewController: UIViewController {
     
     private func startAuthFlow() {
         let _ = authManager.startAuth().onSuccess { _ in
-            print("done")
+            self.loadFeatureArea()
         }
     }
     

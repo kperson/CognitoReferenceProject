@@ -48,7 +48,6 @@ class AuthManager: NSObject, AWSCognitoIdentityInteractiveAuthenticationDelegate
             userPool.clearAll()
         }
         AuthManager.markInitialized()
-        credentialsProvider.clearCredentials()
         let configuration = AWSServiceConfiguration (
             region: Constants.regionType,
             credentialsProvider: credentialsProvider
@@ -66,15 +65,21 @@ class AuthManager: NSObject, AWSCognitoIdentityInteractiveAuthenticationDelegate
         let p = Promise<Bool>()
         credentialsProvider.getIdentityId().continueWith { task in
             if let _ = task.result {
-                if let cu = self.userPool.currentUser(), cu.isSignedIn, let _ = task.result {
-                    p.completeWith(true)
+                if let cu = self.userPool.currentUser() {
+                    p.completeWith(cu.isSignedIn)
                 }
                 else if let _ = task.result {
+                    p.completeWith(false)
+                }
+                else {
                     p.completeWith(false)
                 }
             }
             else if let e = task.error {
                 p.completeWith(e as NSError)
+            }
+            else {
+                p.completeWith(false)
             }
             return Void()
         }
@@ -208,33 +213,33 @@ class AuthManager: NSObject, AWSCognitoIdentityInteractiveAuthenticationDelegate
         finalizeAuth()
     }
     
-    func loginComplete() {
-        if !mfaEnabled {
-            finalizeAuth()
-        }
+    func passwordStepComplete() {
+        finalizeAuth()
     }
     
     private func finalizeAuth() {
-        navigtationController = nil
-        credentialsProvider.clearKeychain()
-        credentialsProvider = AuthManager.createCredentialsProvider(up: userPool)
-        let configuration = AWSServiceConfiguration (
-            region: Constants.regionType,
-            credentialsProvider: credentialsProvider
-        )
-        AWSServiceManager.default().defaultServiceConfiguration = configuration
-        
-        //force a refresh
-        credentialsProvider.getIdentityId().continueWith { task in
-            if let _ = task.result {
-                self.authPromise?.completeWith(Void())
-                self.authPromise = nil
+        if let u = userPool.currentUser(), u.isSignedIn {
+            navigtationController = nil
+            credentialsProvider.clearKeychain()
+            credentialsProvider = AuthManager.createCredentialsProvider(up: userPool)
+            let configuration = AWSServiceConfiguration (
+                region: Constants.regionType,
+                credentialsProvider: credentialsProvider
+            )
+            AWSServiceManager.default().defaultServiceConfiguration = configuration
+            
+            //force a refresh
+            credentialsProvider.getIdentityId().continueWith { task in
+                if let _ = task.result {
+                    self.authPromise?.completeWith(Void())
+                    self.authPromise = nil
+                }
+                else if let e = task.error {
+                    self.authPromise?.completeWith(e as NSError)
+                    self.authPromise = nil
+                }
+                return Void()
             }
-            else if let e = task.error {
-                self.authPromise?.completeWith(e as NSError)
-                self.authPromise = nil
-            }
-            return Void()
         }
     }
     
