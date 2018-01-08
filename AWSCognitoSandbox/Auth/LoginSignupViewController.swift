@@ -23,7 +23,7 @@ class LoginSignupViewController: UIViewController {
     }
     
     @IBAction func didTapSignUp(_ sender: Any) {
-        let vc = SignupViewController.create()
+        let vc = SignupViewController.create(authManager: authManager)
         navigationController?.pushViewController(vc, animated: true)
     }
     

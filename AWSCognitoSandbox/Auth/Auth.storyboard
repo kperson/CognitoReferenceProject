@@ -98,9 +98,6 @@
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="words"/>
-                                <connections>
-                                    <action selector="firstNameField:" destination="oG8-kf-tck" eventType="editingDidEnd" id="k3m-wZ-2AE"/>
-                                </connections>
                             </textField>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Last Name" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="R4G-xo-JjN">
                                 <rect key="frame" x="20" y="95" width="335" height="45"/>
@@ -165,8 +162,8 @@
                     <connections>
                         <outlet property="emailField" destination="WLd-oa-fUx" id="Cv1-Oo-CGw"/>
                         <outlet property="firstNameField" destination="5XU-MI-Md6" id="Pyl-EW-ydu"/>
-                        <outlet property="lastNameField" destination="R4G-xo-JjN" id="zbU-lS-BJX"/>
-                        <outlet property="passworField" destination="QqR-xU-Pvt" id="XTb-de-2NY"/>
+                        <outlet property="lastNameField" destination="R4G-xo-JjN" id="k02-Df-0Xg"/>
+                        <outlet property="passwordField" destination="QqR-xU-Pvt" id="har-aR-oNR"/>
                         <outlet property="phoneField" destination="Nmu-ci-NXd" id="2WM-Uf-FqS"/>
                     </connections>
                 </viewController>

@@ -15,6 +15,7 @@
 		DB4CC5442000745D00CC0094 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DB4CC5422000745D00CC0094 /* LaunchScreen.storyboard */; };
 		DB4CC54C2000755100CC0094 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB4CC54B2000755100CC0094 /* Constants.swift */; };
 		DB4CC54F200124C500CC0094 /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB4CC54E200124C500CC0094 /* AuthManager.swift */; };
+		DB8DC0B32003F61400EEEC64 /* Error+AWS.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB8DC0B22003F61400EEEC64 /* Error+AWS.swift */; };
 		DB93BAF420016E5C0002FEDC /* MFAViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB93BAF320016E5C0002FEDC /* MFAViewController.swift */; };
 		DB93BAF7200315140002FEDC /* MemberAreaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB93BAF6200315140002FEDC /* MemberAreaViewController.swift */; };
 		DB93BAF9200315240002FEDC /* MemberArea.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DB93BAF8200315240002FEDC /* MemberArea.storyboard */; };
@@ -36,6 +37,7 @@
 		DB4CC5452000745D00CC0094 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DB4CC54B2000755100CC0094 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		DB4CC54E200124C500CC0094 /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
+		DB8DC0B22003F61400EEEC64 /* Error+AWS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Error+AWS.swift"; sourceTree = "<group>"; };
 		DB93BAF320016E5C0002FEDC /* MFAViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MFAViewController.swift; sourceTree = "<group>"; };
 		DB93BAF6200315140002FEDC /* MemberAreaViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberAreaViewController.swift; sourceTree = "<group>"; };
 		DB93BAF8200315240002FEDC /* MemberArea.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MemberArea.storyboard; sourceTree = "<group>"; };
@@ -105,6 +107,7 @@
 				DB4CC53D2000745D00CC0094 /* Main.storyboard */,
 				DB93BAF5200314E30002FEDC /* MemberArea */,
 				DB4CC53B2000745D00CC0094 /* RootViewController.swift */,
+				DB8DC0B12003F5DE00EEEC64 /* Util */,
 			);
 			path = AWSCognitoSandbox;
 			sourceTree = "<group>";
@@ -120,6 +123,14 @@
 				DBBD27CC200160D0002BD1EC /* SignupViewController.swift */,
 			);
 			path = Auth;
+			sourceTree = "<group>";
+		};
+		DB8DC0B12003F5DE00EEEC64 /* Util */ = {
+			isa = PBXGroup;
+			children = (
+				DB8DC0B22003F61400EEEC64 /* Error+AWS.swift */,
+			);
+			path = Util;
 			sourceTree = "<group>";
 		};
 		DB93BAF5200314E30002FEDC /* MemberArea */ = {
@@ -281,6 +292,7 @@
 				DB93BAF420016E5C0002FEDC /* MFAViewController.swift in Sources */,
 				DB93BAF7200315140002FEDC /* MemberAreaViewController.swift in Sources */,
 				DBBD27CB20015B5E002BD1EC /* LoginSignupViewController.swift in Sources */,
+				DB8DC0B32003F61400EEEC64 /* Error+AWS.swift in Sources */,
 				DB4CC54C2000755100CC0094 /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
