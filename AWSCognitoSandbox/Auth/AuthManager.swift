@@ -13,7 +13,6 @@ import AWSCognitoIdentityProvider
 
 class AuthManager: NSObject, AWSCognitoIdentityInteractiveAuthenticationDelegate {
 
-    private static let initializationKey = "auth_manager_has_been_initialized"
     static let userPoolKey = "UserPool"
     let appDelegate: AppDelegate
     let window: UIWindow?
@@ -43,11 +42,6 @@ class AuthManager: NSObject, AWSCognitoIdentityInteractiveAuthenticationDelegate
         )
         userPool = AWSCognitoIdentityUserPool(forKey: AuthManager.userPoolKey)
         credentialsProvider = AuthManager.createCredentialsProvider(up: userPool)
-        if AuthManager.isFirtInitialization {
-            credentialsProvider.clearKeychain()
-            userPool.clearAll()
-        }
-        AuthManager.markInitialized()
         let configuration = AWSServiceConfiguration (
             region: Constants.regionType,
             credentialsProvider: credentialsProvider
@@ -162,14 +156,6 @@ class AuthManager: NSObject, AWSCognitoIdentityInteractiveAuthenticationDelegate
                 identityPoolId: Constants.identityPoolId
             )
         }
-    }
-    
-    private class func markInitialized() {
-        UserDefaults.standard.set(true, forKey: AuthManager.initializationKey)
-    }
-    
-    private class var isFirtInitialization: Bool {
-        return !UserDefaults.standard.bool(forKey: AuthManager.initializationKey)
     }
 
     

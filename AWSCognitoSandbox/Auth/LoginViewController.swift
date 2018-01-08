@@ -85,8 +85,4 @@ class LoginViewController: UIViewController, AWSCognitoIdentityPasswordAuthentic
         return vc
     }
     
-    deinit {
-        print("PLEASE")
-    }
-    
 }

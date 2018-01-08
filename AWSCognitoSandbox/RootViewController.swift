@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  RootViewController.swift
 //  AWSCognitoSandbox
 //
 //  Created by Kelton Person on 1/5/18.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class RootViewController: UIViewController {
 
     private var authManager: AuthManager!
     private var hasAppeared = false
@@ -35,6 +35,8 @@ class ViewController: UIViewController {
     }
     
     private func loadFeatureArea() {
+        let vc = MemberAreaViewController.create(authManager: authManager)
+        present(vc, animated: true, completion: nil)
     }
 
 }

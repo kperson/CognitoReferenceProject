@@ -9,13 +9,15 @@
 /* Begin PBXBuildFile section */
 		34EF877F05956B6861754A73 /* Pods_AWSCognitoSandbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E68FB9C7F239439EAFD4127D /* Pods_AWSCognitoSandbox.framework */; };
 		DB4CC53A2000745D00CC0094 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB4CC5392000745D00CC0094 /* AppDelegate.swift */; };
-		DB4CC53C2000745D00CC0094 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB4CC53B2000745D00CC0094 /* ViewController.swift */; };
+		DB4CC53C2000745D00CC0094 /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB4CC53B2000745D00CC0094 /* RootViewController.swift */; };
 		DB4CC53F2000745D00CC0094 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DB4CC53D2000745D00CC0094 /* Main.storyboard */; };
 		DB4CC5412000745D00CC0094 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DB4CC5402000745D00CC0094 /* Assets.xcassets */; };
 		DB4CC5442000745D00CC0094 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DB4CC5422000745D00CC0094 /* LaunchScreen.storyboard */; };
 		DB4CC54C2000755100CC0094 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB4CC54B2000755100CC0094 /* Constants.swift */; };
 		DB4CC54F200124C500CC0094 /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB4CC54E200124C500CC0094 /* AuthManager.swift */; };
 		DB93BAF420016E5C0002FEDC /* MFAViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB93BAF320016E5C0002FEDC /* MFAViewController.swift */; };
+		DB93BAF7200315140002FEDC /* MemberAreaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB93BAF6200315140002FEDC /* MemberAreaViewController.swift */; };
+		DB93BAF9200315240002FEDC /* MemberArea.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DB93BAF8200315240002FEDC /* MemberArea.storyboard */; };
 		DBBD27C920015A64002BD1EC /* Auth.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DBBD27C820015A64002BD1EC /* Auth.storyboard */; };
 		DBBD27CB20015B5E002BD1EC /* LoginSignupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBBD27CA20015B5E002BD1EC /* LoginSignupViewController.swift */; };
 		DBBD27CD200160D0002BD1EC /* SignupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBBD27CC200160D0002BD1EC /* SignupViewController.swift */; };
@@ -27,7 +29,7 @@
 		48DE54B3AF602C75669556A4 /* Pods-AWSCognitoSandbox.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AWSCognitoSandbox.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AWSCognitoSandbox/Pods-AWSCognitoSandbox.debug.xcconfig"; sourceTree = "<group>"; };
 		DB4CC5362000745D00CC0094 /* AWSCognitoSandbox.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AWSCognitoSandbox.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DB4CC5392000745D00CC0094 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		DB4CC53B2000745D00CC0094 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		DB4CC53B2000745D00CC0094 /* RootViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootViewController.swift; sourceTree = "<group>"; };
 		DB4CC53E2000745D00CC0094 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		DB4CC5402000745D00CC0094 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DB4CC5432000745D00CC0094 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -35,6 +37,8 @@
 		DB4CC54B2000755100CC0094 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		DB4CC54E200124C500CC0094 /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
 		DB93BAF320016E5C0002FEDC /* MFAViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MFAViewController.swift; sourceTree = "<group>"; };
+		DB93BAF6200315140002FEDC /* MemberAreaViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberAreaViewController.swift; sourceTree = "<group>"; };
+		DB93BAF8200315240002FEDC /* MemberArea.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MemberArea.storyboard; sourceTree = "<group>"; };
 		DBBD27C820015A64002BD1EC /* Auth.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Auth.storyboard; sourceTree = "<group>"; };
 		DBBD27CA20015B5E002BD1EC /* LoginSignupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginSignupViewController.swift; sourceTree = "<group>"; };
 		DBBD27CC200160D0002BD1EC /* SignupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupViewController.swift; sourceTree = "<group>"; };
@@ -92,14 +96,15 @@
 		DB4CC5382000745D00CC0094 /* AWSCognitoSandbox */ = {
 			isa = PBXGroup;
 			children = (
-				DB4CC54D2000783E00CC0094 /* Auth */,
 				DB4CC5392000745D00CC0094 /* AppDelegate.swift */,
 				DB4CC5402000745D00CC0094 /* Assets.xcassets */,
+				DB4CC54D2000783E00CC0094 /* Auth */,
 				DB4CC54B2000755100CC0094 /* Constants.swift */,
 				DB4CC5452000745D00CC0094 /* Info.plist */,
 				DB4CC5422000745D00CC0094 /* LaunchScreen.storyboard */,
 				DB4CC53D2000745D00CC0094 /* Main.storyboard */,
-				DB4CC53B2000745D00CC0094 /* ViewController.swift */,
+				DB93BAF5200314E30002FEDC /* MemberArea */,
+				DB4CC53B2000745D00CC0094 /* RootViewController.swift */,
 			);
 			path = AWSCognitoSandbox;
 			sourceTree = "<group>";
@@ -115,6 +120,15 @@
 				DBBD27CC200160D0002BD1EC /* SignupViewController.swift */,
 			);
 			path = Auth;
+			sourceTree = "<group>";
+		};
+		DB93BAF5200314E30002FEDC /* MemberArea */ = {
+			isa = PBXGroup;
+			children = (
+				DB93BAF8200315240002FEDC /* MemberArea.storyboard */,
+				DB93BAF6200315140002FEDC /* MemberAreaViewController.swift */,
+			);
+			path = MemberArea;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -181,6 +195,7 @@
 				DBBD27C920015A64002BD1EC /* Auth.storyboard in Resources */,
 				DB4CC5442000745D00CC0094 /* LaunchScreen.storyboard in Resources */,
 				DB4CC5412000745D00CC0094 /* Assets.xcassets in Resources */,
+				DB93BAF9200315240002FEDC /* MemberArea.storyboard in Resources */,
 				DB4CC53F2000745D00CC0094 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -260,10 +275,11 @@
 			files = (
 				DBBD27CF200164D0002BD1EC /* LoginViewController.swift in Sources */,
 				DBBD27CD200160D0002BD1EC /* SignupViewController.swift in Sources */,
-				DB4CC53C2000745D00CC0094 /* ViewController.swift in Sources */,
+				DB4CC53C2000745D00CC0094 /* RootViewController.swift in Sources */,
 				DB4CC54F200124C500CC0094 /* AuthManager.swift in Sources */,
 				DB4CC53A2000745D00CC0094 /* AppDelegate.swift in Sources */,
 				DB93BAF420016E5C0002FEDC /* MFAViewController.swift in Sources */,
+				DB93BAF7200315140002FEDC /* MemberAreaViewController.swift in Sources */,
 				DBBD27CB20015B5E002BD1EC /* LoginSignupViewController.swift in Sources */,
 				DB4CC54C2000755100CC0094 /* Constants.swift in Sources */,
 			);

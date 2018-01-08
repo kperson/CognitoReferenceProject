@@ -27,7 +27,6 @@ class LoginSignupViewController: UIViewController {
         navigationController?.pushViewController(vc, animated: true)
     }
     
-    
     class func create(authManager: AuthManager) -> UIViewController {
         let vc = UIStoryboard(name: "Auth", bundle: nil).instantiateViewController(withIdentifier: "LoginSignupViewControllerId") as! LoginSignupViewController
         vc.authManager = authManager
